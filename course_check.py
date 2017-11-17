@@ -1,19 +1,16 @@
 import time
 import sys
 import os  
-import urllib
-import requests
 
 from selenium import webdriver  
 from selenium.webdriver.common.keys import Keys  
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 
+from mcgill_login import uname, pwd
+
 search_url = "https://horizon.mcgill.ca/pban1/bwskfcls.P_GetCrse"
 login_url = "https://horizon.mcgill.ca/pban1/twbkwbis.P_ValLogin"
-
-uname = "carlos.gonzalezoliver@mail.mcgill.ca"
-pwd = "sasjajuli_milojuli"
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -26,7 +23,7 @@ driver = webdriver.Chrome(chrome_options=chrome_options,\
 def login(username, password):
     #get login page
     driver.get(login_url)
-    time.sleep(5)
+    time.sleep(2)
     #give email
     uname = driver.find_element_by_xpath("//*[@id=\"mcg_un\"]")
 
