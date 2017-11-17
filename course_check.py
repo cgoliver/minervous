@@ -16,8 +16,8 @@ uname = "carlos.gonzalezoliver@mail.mcgill.ca"
 pwd = "sasjajuli_milojuli"
 
 chrome_options = Options()
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--window-size=1920x1080")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=1920x1080")
 
 
 driver = webdriver.Chrome(chrome_options=chrome_options,\
@@ -48,13 +48,13 @@ def course_search(deptartment, course, term="Winter 2018", dept="COMP"):
     driver.get("https://horizon.mcgill.ca/pban1/bwskfcls.p_sel_crse_search")
     select = Select(driver.find_element_by_id("term_input_id"))
     select.select_by_visible_text(term)
-    time.sleep(2)
+    # time.sleep(2)
     # print(driver.page_source)
     print(driver.current_url)
 
     driver.find_element_by_xpath("/html/body/div[3]/form/input[3]").click()
 
-    time.sleep(2)
+    # time.sleep(2)
     sel = driver.find_elements_by_name("sel_subj")[1]
     select = Select(sel)
     select.select_by_value(dept)
@@ -62,7 +62,7 @@ def course_search(deptartment, course, term="Winter 2018", dept="COMP"):
     
     #submit department
     driver.find_element_by_name("SUB_BTN").click()
-    time.sleep(2)
+    # time.sleep(2)
     print(driver.current_url)
 
     #select course
@@ -70,17 +70,20 @@ def course_search(deptartment, course, term="Winter 2018", dept="COMP"):
     for row in rows:
         try:
             course_num = row.text.split()[0]
-            print(course_num)
         except IndexError:
             continue
         else:
             if course_num == "767":
-                print(course)
                 row.find_element_by_name("SUB_BTN").click()
                 break
 
-    # course = driver.find_element_by_xpath("//input[@name='SEL_CRSE' and\
-        # @value='767']").click()
+    #C 11806 COMP 767 001 Lecture 4.000 Advanced Topics: Applications 2. TR
+    #11:35 AM-12:55 PM 60 72 -12 0 0 0 Doina Precup 01/08-04/16 ENGMC 103 Active
+    rows = driver.find_elements_by_tag_name("tr")
+    for row in rows:
+        if '11806' in row.text:
+            rem = row.find_elements_by_tag_name("td")[12].text
+            print(rem)
     
     # driver.find_element_by_link_text("Student Menu").click()
     # driver.find_element_by_link_text("Registration Menu").click()
