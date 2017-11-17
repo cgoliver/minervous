@@ -44,17 +44,18 @@ def login(username, password):
 
     return driver.page_source 
 
-def course_search(deptartment, course, term="Winter 2018", dept="COMP"):
+def check_availability(course, crn, term="Winter 2018", dept="COMP"):
+    """
+        Returns:
+            int: number of available spots in given course
+
+    """
     driver.get("https://horizon.mcgill.ca/pban1/bwskfcls.p_sel_crse_search")
     select = Select(driver.find_element_by_id("term_input_id"))
     select.select_by_visible_text(term)
-    # time.sleep(2)
-    # print(driver.page_source)
-    print(driver.current_url)
 
     driver.find_element_by_xpath("/html/body/div[3]/form/input[3]").click()
 
-    # time.sleep(2)
     sel = driver.find_elements_by_name("sel_subj")[1]
     select = Select(sel)
     select.select_by_value(dept)
@@ -62,7 +63,6 @@ def course_search(deptartment, course, term="Winter 2018", dept="COMP"):
     
     #submit department
     driver.find_element_by_name("SUB_BTN").click()
-    # time.sleep(2)
     print(driver.current_url)
 
     #select course
@@ -73,22 +73,17 @@ def course_search(deptartment, course, term="Winter 2018", dept="COMP"):
         except IndexError:
             continue
         else:
-            if course_num == "767":
+            if course_num == course:
                 row.find_element_by_name("SUB_BTN").click()
                 break
 
-    #C 11806 COMP 767 001 Lecture 4.000 Advanced Topics: Applications 2. TR
-    #11:35 AM-12:55 PM 60 72 -12 0 0 0 Doina Precup 01/08-04/16 ENGMC 103 Active
     rows = driver.find_elements_by_tag_name("tr")
     for row in rows:
-        if '11806' in row.text:
+        if crn in row.text:
             rem = row.find_elements_by_tag_name("td")[12].text
-            print(rem)
+            return rem
     
-    # driver.find_element_by_link_text("Student Menu").click()
-    # driver.find_element_by_link_text("Registration Menu").click()
     
-login(uname, pwd)
-course_search("hi", "ho")
-# htmlSource = driver.page_source
-# printt(htmlSource)
+if __name__ == "__main__":
+    login(uname, pwd)
+    rem = check_availability("767", "11806")
