@@ -44,7 +44,9 @@ def login(username, password):
 def check_availability(course, crn, term="Winter 2018", dept="COMP"):
     """
         Returns:
-            int: number of available spots in given course
+            dict: keys are info fields and values are status. eg.
+            dict['status']: "Active"
+            dict['remaining']: 3
 
     """
     driver.get("https://horizon.mcgill.ca/pban1/bwskfcls.p_sel_crse_search")
@@ -75,10 +77,15 @@ def check_availability(course, crn, term="Winter 2018", dept="COMP"):
                 break
 
     rows = driver.find_elements_by_tag_name("tr")
+    info_dict = {}
     for row in rows:
         if crn in row.text:
+            #get info from data row
             rem = row.find_elements_by_tag_name("td")[12].text
-            return rem
+            status = row.find_elements_by_tag_name("td")[19].text
+            info_dict["spots"] = rem
+            info_dict["status"] = status
+            return info_dict 
     
     
 if __name__ == "__main__":
