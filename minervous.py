@@ -102,7 +102,6 @@ def main_loop(logins, courses, interval=30, mail_time=6):
         logging.critical("Login error.")
         sys.exit(1)
 
-    message = ["Subject: Scheduled Minerva Summary"]
 
     last_summary= time.time()
 
@@ -111,6 +110,8 @@ def main_loop(logins, courses, interval=30, mail_time=6):
         logging.info("Taking a peek...")
         time_now = time.strftime("%a, %d %b %Y %H:%M:%S +0000",\
             time.localtime(time.time()))
+
+        message = ["Subject: Scheduled Minerva Summary"]
         for course in courses:
             info = course_check.check_availability(course.course_number, course.crn,\
                 term=course.term, dept=course.department)
