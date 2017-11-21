@@ -28,6 +28,8 @@ COMP,767,11806,Winter 2018
 COMP,250,18360,Winter 2018
 ```
 
+Once those files are saved you can just call `minervous.py`.
+
 ```
 python minervous.py
 ```
