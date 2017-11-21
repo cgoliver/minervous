@@ -5,21 +5,49 @@
 ## Requirements
 
 * Python 3.6
-* Selenium
-* Chrome Web Driver
+* [Selenium](http://selenium-python.readthedocs.io/)
+* [Chrome Web Driver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+
+## Installation
+
+Download the repository:
+
+```
+git clone https://github.com/cgoliver/minervous.git
+cd minervous
+```
+
+Install selenium 
+
+```
+pip install selenium
+```
+
+Finally, [download](https://sites.google.com/a/chromium.org/chromedriver/downloads) the Chrome webdriver and place it in the `minervous` directory.
+
+For example:
+
+```
+cd minervous
+mv ~/Downloads/chromedriver .
+```
+
+
 
 ## Basic Usage
 
 You must create two files with the following format:
 
-Login info file (default location is current directory and default name is `logins.txt`): 
+* Login info file (default location is current directory and default name is `logins.txt`): 
 
 ```
 bob.loblaw@mail.mcgill.ca bobpassword1234
 bob.loblaw@gmail.com bobgmailpw1234 
 ```
 
-Courses to monitor (default location is current directory and default name is `watchlist.txt`)
+NOTE: Be careful not to share this file or make it public. `minervous` does not store your password anywhere but if you don't trust just read the code :)
+
+* Courses to monitor (default location is current directory and default name is `watchlist.txt`)
 
 Row format: `<department code>,<course number>,<CRN>,<term>`
 
