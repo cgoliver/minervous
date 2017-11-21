@@ -48,5 +48,5 @@ python minervous.py -h
 
 To override the default time interval options see the help menu by using the command above.
 
-Note: This tool was inspired by @zulban's [zminerva](https://github.com/Zulban/zminerva) which had a lot more functionality but is now out of date with the current minerva.
+Note: This tool was inspired by @zulban's [zminerva](https://github.com/Zulban/zminerva) which had a lot more functionality but is now out of date with the current minerva. 
 
