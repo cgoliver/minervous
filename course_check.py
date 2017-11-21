@@ -1,13 +1,17 @@
 import time
 import sys
 import os  
+import logging
 
 from selenium import webdriver  
 from selenium.webdriver.common.keys import Keys  
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 
-from mcgill_login import uname, pwd
+try:
+    from mcgill_login import uname, pwd
+except:
+    pass
 
 search_url = "https://horizon.mcgill.ca/pban1/bwskfcls.P_GetCrse"
 login_url = "https://horizon.mcgill.ca/pban1/twbkwbis.P_ValLogin"
@@ -62,7 +66,7 @@ def check_availability(course, crn, term="Winter 2018", dept="COMP"):
     
     #submit department
     driver.find_element_by_name("SUB_BTN").click()
-    print(driver.current_url)
+    logging.debug(driver.current_url)
 
     #select course
     rows = driver.find_elements_by_tag_name("tr")
