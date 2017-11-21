@@ -119,11 +119,12 @@ def main_loop(logins, courses, interval=30, mail_time=6):
             spots = info['spots']
 
             first_time = course.status is None and course.spots is None
+            free_spots = int(spots) > 0 and spots != course.spots
             #if status for course changes, send email
-            if (status != course.status or int(spots)> 0) and not first_time:
+            if (status != course.status or free_spots) and not first_time:
                 send_mail(logins['gmail_email'], logins['gmail_password'],\
                     logins['gmail_email'],\
-                        "Subject: Minerva Course Change Alert! @ {time_now}\n\n" + course.__str__())
+                        f"Subject: Minerva Course Change Alert! @ {time_now}\n\n" + course.__str__())
             
             course.status = status
             course.spots = spots
