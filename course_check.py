@@ -15,6 +15,7 @@ except:
 
 search_url = "https://horizon.mcgill.ca/pban1/bwskfcls.P_GetCrse"
 login_url = "https://horizon.mcgill.ca/pban1/twbkwbis.P_ValLogin"
+logout_url = "https://horizon.mcgill.ca/pban1/twbkwbis.P_Logout"
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -44,6 +45,10 @@ def login(username, password):
     submit.click()
 
     return driver.page_source 
+
+def logout():
+    driver.get("https://horizon.mcgill.ca/pban1/twbkwbis.P_Logout")
+    pass
 
 def check_availability(course, crn, term="Winter 2018", dept="COMP"):
     """

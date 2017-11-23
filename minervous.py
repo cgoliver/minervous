@@ -94,22 +94,27 @@ def main_loop(logins, courses, interval=30, mail_time=6):
     """
     Monitor minerva for each course and send email if useful changes occur.
     """
-    logging.info("Logging in...")
-    try:
-        course_check.login(logins['mcgill_email'], logins['mcgill_password'])
-
-    except:
-        logging.critical("Login error.")
-        sys.exit(1)
-
 
     last_summary= time.time()
 
     logging.info("Starting course watch...")
+    logging.info(f"Logging in every {interval} minutes.")
+    logging.info(f"Summary emails sent every {mail_time} hours.")
     while True:
-        logging.info("Taking a peek...")
         time_now = time.strftime("%a, %d %b %Y %H:%M:%S +0000",\
             time.localtime(time.time()))
+
+        logging.info("Logging in...")
+
+        #login
+        try:
+            course_check.login(logins['mcgill_email'], logins['mcgill_password'])
+
+        except:
+            logging.critical("Login error.")
+            sys.exit(1)
+
+        logging.info(f">> Latest Status {time_now}")
 
         message = ["Subject: Scheduled Minerva Summary"]
         for course in courses:
@@ -130,17 +135,21 @@ def main_loop(logins, courses, interval=30, mail_time=6):
             course.status = status
             course.spots = spots
 
-            logging.info(f">> Latest Status {time_now}")
             logging.info(course.__str__())
             message.append(course.__str__())
 
+        course_check.logout()
         # send summary email
-        if int((time.time() - last_summary)/3600) % mail_time == 0:
+        hours_since_summary = int((time.time() - last_summary) / 3600)
+        logging.info(f"Hours since last summary: {hours_since_summary}")
+        if hours_since_summary == mail_time:
+            logging.info("Sending summary email.")
             last_summary = time.time()
             send_mail(logins['gmail_email'], logins['gmail_password'],\
                 logins['gmail_email'], "\n".join(message))
             
         #sleep for interval minutes 
+        logging.info(f"Sleeping for {interval} minutes...")
         time.sleep(interval * 60)
 
 if __name__ == "__main__":
