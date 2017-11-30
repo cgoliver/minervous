@@ -76,5 +76,7 @@ python minervous.py -h
 
 To override the default time interval options see the help menu by using the command above.
 
+**Disclaimer:** Modifying the login frequency comes at your own risk. Setting too high a login frequency may result in your getting banned from minerval. The 30 minute default appears to be safe as far as I have been testing.
+
 Note: This tool was inspired by @zulban's [zminerva](https://github.com/Zulban/zminerva) which had a lot more functionality but is now out of date with the current minerva. 
 
